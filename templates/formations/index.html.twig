@@ -1,0 +1,58 @@
+<html>
+<head></head>
+<body>
+{% set nbMax=0 %}
+{% set nbTot=0 %}
+
+{% for format in forma %}
+    {% set nbMax=max(format.nb_participants,nbMax) %}
+    {% set nbTot=format.nb_participants+nbTot %}
+{% endfor %}
+
+<h1> Voila la liste des formations disponibles : </h1>
+<table border="1">
+<tr> 
+<th>Référence</th>
+<th>Titre</th>
+<th>Description</th>
+<th>Date Debut</th>
+<th>Date Fin</th>
+<th>Nombre de participants</th>
+</tr>
+ <h4>le nombre des formation est : {{forma |length }} </h4>
+<h4>le nombre totale des participants est : {{ nbTot}} </h4>
+ {% for f in forma %}
+
+<tr >
+{#{% if 'theorique' in f.Description %}#}
+
+{#{%  if f.nb_participants==nbMax %}#}
+<td> {{f.ref}} </td>
+<td> {{f.Titre|upper}}</td>
+<td> {{f.Description}} </td>
+<td> {{f.date_debut}} </td>
+<td> {{f.date_fin}} </td>
+<td> {{f.nb_participants}} </td>
+<td>
+{% if f.nb_participants==0 %}
+<form action="{{ path ('details' ,{'id':f.ref}) }}"> 
+<button > Participer </button>
+</form>
+
+{% endif %}
+</td>
+
+
+{#{% endif %}#}
+{#{% endif %}#}
+
+
+
+
+{% else %}
+<strong>Tableau vide !!! </strong>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>
