@@ -1,0 +1,43 @@
+<html>
+<head></head>
+<body>
+
+<h1>  Here are all students : </h1>
+
+<form method="post" action="{{ path('findSAction') }}">
+ <label> Find Student : </label>
+<input type="text" name='search'>
+<input type="submit" value="Find" > </input></input></input>
+ </form>
+<table border="1">
+<th>Id</th>
+<th>Nsc</th>
+<th>Name</th>
+<th>Enabled</th>
+<th>Description</th>
+<th>email</th>
+<th>Classroom Name</th>
+<th>Delete</th>
+<th>Update</th>
+<tr {% for s in studentS %} > 
+<td> {{s.id}}</td>
+<td> {{s.nsc}}</td>
+<td> {{s.name}}</td>
+<td> {{s.enabled}}</td>
+<td> {{s.description}}</td>
+<td> {{s.email}}</td>
+<td> {{s.classroom.name}}</td>
+<td> 
+<button> <a href="{{ path ('delS' ,{'identifiant': s.id }) }}"> Delete </a> </button></td>
+<td> 
+<button> <a href="{{ path ('modifS' ,{'identifiant': s.id }) }}"> Update </a> </button></td>
+
+</tr {% endfor %}>
+
+ <h4></h4>
+<h4> </h4>
+</table>
+<button style="width: 15%; background-color: lightBlue; margin: 1% 40%;"> <a href="{{ path ('addSAction') }}"> Add Student</a> </button>
+
+</body>
+</html>

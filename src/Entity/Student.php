@@ -33,8 +33,21 @@ class Student
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
+    private $nsc;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Classroom::class, inversedBy="students")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $classroom;
+
   
 
     public function getId(): ?int
@@ -74,6 +87,42 @@ class Student
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getNsc(): ?string
+    {
+        return $this->nsc;
+    }
+
+    public function setNsc(string $nsc): self
+    {
+        $this->nsc = $nsc;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getClassroom(): ?Classroom
+    {
+        return $this->classroom;
+    }
+
+    public function setClassroom(?Classroom $classroom): self
+    {
+        $this->classroom = $classroom;
 
         return $this;
     }

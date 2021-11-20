@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Student;
+use App\Form\StudentType;
+use App\Repository\StudentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,4 +31,89 @@ class StudentController extends AbstractController
 
     }
     
-}
+    /**
+     * @param StudentRepository $repo
+     * @Route("/AfficheStudents",name="AfficheStudentAction")
+     */
+
+    public function ShowS(StudentRepository $repo) : Response {
+        $studentS=$repo->findAll();
+        return $this->render('student/afficheS.html.twig',['studentS' => $studentS]);
+
+    
+    }
+
+/**
+ * @param $identifiant
+ * @Route("/deleteS/{identifiant}",name="delS")
+ */
+     public function DeleteS(StudentRepository $repo,$identifiant) {
+
+         $student=$repo->find($identifiant);
+         $em=$this->getDoctrine()->getManager();
+         $em->remove($student);
+         $em->flush();
+         return $this->redirectToRoute('AfficheStudentAction'); 
+         
+
+     }
+    /**
+     * @Route("student/addStudent",name="addSAction")
+     */
+    public function AddS(Request $request):Response{
+        $student=new Student();
+        $form=$this->createForm(StudentType::class,$student);
+        $form->add('Ajouter',SubmitType::class);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em=$this->getDoctrine()->getManager();
+            $em->persist($student);
+            $em->flush();
+            return $this->redirectToRoute('AfficheStudentAction');
+        }
+        return $this->render('student/addS.html.twig',['formulaire'=>$form->createView()]);
+
+    }
+
+
+/**
+ * @param $identifiant
+ * @Route("/updateS/{identifiant}",name="modifS")
+ */
+public function UpdateS(StudentRepository $repo,$identifiant,Request $request) {
+
+    $student=$repo->find($identifiant);
+    $form=$this->createForm(StudentType::class,$student);
+    $form->add('Update',SubmitType::class);
+    
+    $form->handleRequest($request );
+
+    if($form->isSubmitted() && $form->isValid()){
+    $em=$this->getDoctrine()->getManager();
+    $em->flush($student);
+    return $this->redirectToRoute('AfficheStudentAction'); }
+    
+
+
+return $this->render('student/addS.html.twig',['formulaire'=>$form->createView()]);}
+
+
+
+
+
+
+
+ /**
+     * @Route("student/findStudent",name="findSAction")
+     */
+    public function FindS(Request $request,StudentRepository $repos):Response{
+        $data=$request->get('search');
+        $student=$repos->findBy(['nsc'=>$data]);
+        return $this->render('student/afficheS.html.twig',['studentS' => $student]);}
+
+    }
+
+
+
