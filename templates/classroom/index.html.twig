@@ -1,0 +1,25 @@
+<html>
+<head></head>
+<body>
+
+<h1>  Voila les classrooms </h1>
+<table border="1">
+<th>Id</th>
+<th>Name</th>
+<th>Delete</th>
+<th>Update</th>
+<tr {% for c in classroom %} > 
+<td> {{c.id}}</td>
+<td>{{c.name}}</td>
+<td> 
+<button> <a href="{{ path ('del' ,{'identifiant': c.id }) }}"> Delete </a> </button></td>
+<td> 
+<button> <a href="{{ path ('modif' ,{'identifiant': c.id }) }}"> Update </a> </button></td>
+
+</tr {% endfor %}>
+
+ <h4></h4>
+<h4> </h4>
+</table>
+</body>
+</html>
