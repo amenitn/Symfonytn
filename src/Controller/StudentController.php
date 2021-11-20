@@ -42,6 +42,30 @@ class StudentController extends AbstractController
 
     
     }
+     /**
+     * @param StudentRepository $repo
+     * @Route("/AfficheSname",name="AfficsheSnameAction")
+     */
+
+    public function ShowSname(StudentRepository $repo) : Response {
+        $studentS=$repo->ShowSname();
+                return $this->render('student/afficheS.html.twig',['studentS' => $studentS]);
+
+}
+
+ /**
+     * @param StudentRepository $repo
+     * @Route("/AfficheSlike",name="AfficsheSlikeAction")
+     */
+
+    public function ShowSlike(StudentRepository $repo) : Response {
+        $studentS=$repo->ShowSnameQB();
+                return $this->render('student/afficheS.html.twig',['studentS' => $studentS]);
+
+}
+
+  
+
 
 /**
  * @param $identifiant
@@ -109,8 +133,8 @@ return $this->render('student/addS.html.twig',['formulaire'=>$form->createView()
      * @Route("student/findStudent",name="findSAction")
      */
     public function FindS(Request $request,StudentRepository $repos):Response{
-        $data=$request->get('search');
-        $student=$repos->findBy(['nsc'=>$data]);
+        $data=$request->get('searchNsc');
+        $student=$repos->findBy(['nsc'=>$data ]);
         return $this->render('student/afficheS.html.twig',['studentS' => $student]);}
 
     }

@@ -47,4 +47,17 @@ class StudentRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function ShowSname() {
+        $em=$this->getEntityManager();
+        $query=$em->createQuery('select s from App\Entity\Student s order by s.email ASC');
+        return $query->getResult();
+
+}
+public function ShowSnameQB() {
+return $this->createQueryBuilder('s')->where('s.name LIKE :name')->setParameter('name','%s')->getQuery()->getResult();
+
+
+}
+
 }
